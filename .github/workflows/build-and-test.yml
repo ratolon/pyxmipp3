@@ -82,7 +82,46 @@ jobs:
         if: matrix.os == 'ubuntu-22.04'
         run: python -m pip install --upgrade pip packaging
 
-      - name: Install with pip
+      - name: Setup Homebrew (Only macOS)
+        if: runner.os == 'macOS'
+        uses: Homebrew/install-homebrew@v2
+        with:
+          install-path: /opt/homebrew
+
+      - name: Setup PATH for Homebrew (Only macOS)
+        if: runner.os == 'macOS'
+        run: |
+          if [[ "$uname -m)" == "arm64" ]]; then
+            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $GITHUB_ENV
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+          else
+            echo 'eval "$(/usr/local/bin/brew shellenv)"' >> $GITHUB_ENV
+            eval "$(/usr/local/bin/brew shellenv)"
+          fi
+
+      - name: Install dependencies (Only macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install pkg-config cmake hdf5 fftw jpeg libtiff
+
+      - name: Install with pip (only macOS)
+        if: runner.os == 'macOS'
+        env:
+          CMAKE_OSX_ARCHITECTURES: "arm64"
+          CMAKE_PREFIX_PATH: /opt/homebrew
+        run: pip install . -v
+      
+      - name: Debug macOS libs
+        if: runner.os == 'macOS'
+        run: |
+          for lib in hdf5 fftw libtiff jpeg; do
+            echo "=== $lib ==="
+            file $(brew --prefix $lib)/lib/*.dylib | head -n 3
+          done
+
+      - name: Install with pip (non macOS)
+        if: runner.os != 'macOS'
         run: pip install . -v
 
       - name: Test installation
