@@ -38,7 +38,7 @@
                 char ErrorMessage[256]; \
                 void *isValidIdentifier; \
                 isValidIdentifier = (void *)(*FunctionName); \
-                if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+                if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                             __FILE__ ": NULL POINTER---" #Pointer, (long)__LINE__) == EOF) \
                     MessageDisplay("\a"); \
                 else { \
@@ -63,7 +63,7 @@
                 char ErrorMessage[256]; \
                 void *isValidIdentifier; \
                 isValidIdentifier = (void *)(*FunctionName); \
-                if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+                if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                             __FILE__ ": INVALID CHAR---" #CharVariable " = %c", \
                             (long)__LINE__, (char)CharVariable) == EOF) \
                     MessageDisplay("\a"); \
@@ -89,7 +89,7 @@
                 char ErrorMessage[256]; \
                 void *isValidIdentifier; \
                 isValidIdentifier = (void *)(*FunctionName); \
-                if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+                if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                             __FILE__ ": INVALID DOUBLE---" #DoubleVariable " = %E", \
                             (long)__LINE__, (double)DoubleVariable) == EOF) \
                     MessageDisplay("\a"); \
@@ -115,7 +115,7 @@
                 char ErrorMessage[256]; \
                 void *isValidIdentifier; \
                 isValidIdentifier = (void *)(*FunctionName); \
-                if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+                if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                             __FILE__ ": INVALID FLOAT---" #FloatVariable " = %E", \
                             (long)__LINE__, (float)FloatVariable) == EOF) \
                     MessageDisplay("\a"); \
@@ -141,7 +141,7 @@
                 char ErrorMessage[256]; \
                 void *isValidIdentifier; \
                 isValidIdentifier = (void *)(*FunctionName); \
-                if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+                if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                             __FILE__ ": INVALID INT---" #IntVariable " = %d", \
                             (long)__LINE__, (int)IntVariable) == EOF) \
                     MessageDisplay("\a"); \
@@ -167,7 +167,7 @@
                 char ErrorMessage[256]; \
                 void *isValidIdentifier; \
                 isValidIdentifier = (void *)(*FunctionName); \
-                if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+                if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                             __FILE__ ": INVALID LONG---" #LongVariable " = %ld", \
                             (long)__LINE__, (long)LongVariable) == EOF) \
                     MessageDisplay("\a"); \
@@ -193,7 +193,7 @@
                 char ErrorMessage[256]; \
                 void *isValidIdentifier; \
                 isValidIdentifier = (void *)(*FunctionName); \
-                if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+                if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                             __FILE__ ": INVALID SHORT---" #ShortVariable " = %hd", \
                             (long)__LINE__, (short)ShortVariable) == EOF) \
                     MessageDisplay("\a"); \
@@ -224,7 +224,7 @@
             char ErrorMessage[256]; \
             void *isValidIdentifier; \
             isValidIdentifier = (void *)(*FunctionName); \
-            if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+            if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                         __FILE__ ": ENTERING---", (long)__LINE__) == EOF) \
                 MessageDisplay("\a"); \
             else { \
@@ -245,7 +245,7 @@
             char ErrorMessage[256]; \
             void *isValidIdentifier; \
             isValidIdentifier = (void *)(*FunctionName); \
-            if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+            if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                         __FILE__ ": INFO---", (long)__LINE__) == EOF) \
                 MessageDisplay("\a"); \
             else { \
@@ -266,7 +266,7 @@
             char ErrorMessage[256]; \
             void *isValidIdentifier; \
             isValidIdentifier = (void *)(*FunctionName); \
-            if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+            if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                         __FILE__ ": LEAVING---", (long)__LINE__) == EOF) \
                 MessageDisplay("\a"); \
             else { \
@@ -287,7 +287,7 @@
             char ErrorMessage[256]; \
             void *isValidIdentifier; \
             isValidIdentifier = (void *)(*FunctionName); \
-            if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+            if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                         __FILE__ ": PERSONAL---", (long)__LINE__) == EOF) \
                 MessageDisplay("\a"); \
             else { \

@@ -27,7 +27,7 @@
 #define  WRITE_ERROR(FunctionName, String) \
     { \
         char ErrorMessage[256]; \
-        if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+        if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                     __FILE__ ": ERROR---", (long)__LINE__) == EOF) \
             MessageDisplay("\a"); \
         else { \
@@ -48,7 +48,7 @@
              || (strstr(DEBUG_CONTEXT, "|*|") != (char *)NULL)) \
             && ((strstr(DEBUG_LEVEL, "|WARNING|") != (char *)NULL) \
                 || (strstr(DEBUG_LEVEL, "|*|") != (char *)NULL))) { \
-            if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+            if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                         __FILE__ ": WARNING---", (long)__LINE__) == EOF) \
                 MessageDisplay("\a"); \
             else { \
@@ -61,7 +61,7 @@
 #define  WRITE_WARNING(FunctionName, String) \
     { \
         char ErrorMessage[256]; \
-        if (sprintf(ErrorMessage, #FunctionName " at line %ld in " \
+        if (snprintf(ErrorMessage, sizeof(ErrorMessage), #FunctionName " at line %ld in " \
                     __FILE__ ": WARNING---", (long)__LINE__) == EOF) \
             MessageDisplay("\a"); \
         else { \

@@ -102,8 +102,9 @@ void rotationalCorrelation(const Polar<std::complex<double> > &M1,
 	int nrings = M1.getRingNo();
 	if (nrings != M2.getRingNo()) {
 		char errorMsg[256];
-		sprintf(
+		snprintf(
 				errorMsg,
+				sizeof(errorMsg),
 				"rotationalCorrelation: polar structures have unequal number of rings:\
     	nrings %d and M2.getRingNo %d",
 				nrings, M2.getRingNo());

@@ -85,7 +85,7 @@ extern int WaveletFiltersGetCoef_Fract(double Alpha, double *h, double *g)
     {
     	char st[128];
     	
-    	sprintf( st , "fractfilters.c: getOrthoCoef(): cannot allocate %d bytes of"
+    	snprintf( st , sizeof(st) , "fractfilters.c: getOrthoCoef(): cannot allocate %d bytes of"
     			 "memory for the R buffer!" , (int)t );
     	MessageDisplay( st );
     	return ERROR;
@@ -96,7 +96,7 @@ extern int WaveletFiltersGetCoef_Fract(double Alpha, double *h, double *g)
     {
     	char st[128];
     	
-    	sprintf( st , "fractfilters.c: getOrthoCoef(): cannot allocate %d bytes of"
+    	snprintf( st , sizeof(st) , "fractfilters.c: getOrthoCoef(): cannot allocate %d bytes of"
     			 "memory for the I buffer!" , (int)t );
     	MessageDisplay( st );
     	free(R);

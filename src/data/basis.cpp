@@ -72,17 +72,17 @@ void Basis::defineParams(XmippProgram * program, const char* prefix, const char*
     char lineOut[512];
 
     if(prefix == nullptr)
-        sprintf(tempLine, "  [--basis <basis_type=blobs>] ");
+        snprintf(tempLine, sizeof(tempLine), "  [--basis <basis_type=blobs>] ");
     else
-        sprintf(tempLine,"%s --basis <basis_type=blobs> ", prefix);
+        snprintf(tempLine, sizeof(tempLine), "%s --basis <basis_type=blobs> ", prefix);
 
     //std::cerr << "DEBUG_JM: tempLine: " << tempLine << std::endl;
 
 
     if (comment != nullptr)
-        sprintf(lineOut, "%s : %s", tempLine, comment);
+        snprintf(lineOut, sizeof(lineOut), "%s : %s", tempLine, comment);
     else
-        sprintf(lineOut, "%s : Basis function to use for the reconstruction", tempLine);
+        snprintf(lineOut, sizeof(lineOut), "%s : Basis function to use for the reconstruction", tempLine);
 
     program->addParamsLine(lineOut);
 

@@ -29,7 +29,18 @@ String colorString(const char * msg, int color, int attribute, int bgcolor)
 {
 	size_t n = strlen(msg);
     char *formatBuffer = new char[n+20]; // Extra space for color characters
-    sprintf(formatBuffer, "%c[%d;%dm%s%c[0m", 0x1B, attribute, color + 30, msg, 0x1B);
+    
+    snprintf(
+    formatBuffer,
+    sizeof(formatBuffer),
+    "%c[%d;%dm%s%c[0m",
+    0x1B,
+    attribute,
+    color + 30,
+    msg,
+    0x1B
+    );
+    
     String s = formatBuffer;
     delete[] formatBuffer;
     return s;

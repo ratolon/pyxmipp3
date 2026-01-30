@@ -228,7 +228,12 @@ void* ae_malloc(size_t size, ae_state *state)
     if( result==NULL && state!=NULL)
     {
         char buf[256];
-        sprintf(buf, "ae_malloc(): out of memory (attempted to allocate %llu bytes)", (unsigned long long)size);
+        snprintf(
+            buf,
+            sizeof(buf),
+            "ae_malloc(): out of memory (attempted to allocate %llu bytes)",
+            (unsigned long long)size
+        );
         ae_break(state, ERR_OUT_OF_MEMORY, buf);
     }
     return result;
@@ -4852,15 +4857,22 @@ std::string alglib::complex::tostring(int _dps) const
         return "INF";
 
     // generate mask
-    if( sprintf(mask, "%%.%d%s", dps, _dps>=0 ? "f" : "e")>=(int)sizeof(mask) )
+    if( snprintf(mask, sizeof(mask), "%%.%d%s", dps, _dps>=0 ? "f" : "e")>=(int)sizeof(mask) )
         throw ap_error("complex::tostring(): buffer overflow");
 
     // print |x|, |y| and zero with same mask and compare
-    if( sprintf(buf_x, mask, (double)(fabs(x)))>=(int)sizeof(buf_x) )
+    int n;
+
+    n = snprintf(buf_x, sizeof(buf_x), mask, (double)fabs(x));
+    if (n < 0 || n >= (int)sizeof(buf_x))
         throw ap_error("complex::tostring(): buffer overflow");
-    if( sprintf(buf_y, mask, (double)(fabs(y)))>=(int)sizeof(buf_y) )
+
+    n = snprintf(buf_y, sizeof(buf_y), mask, (double)fabs(y));
+    if (n < 0 || n >= (int)sizeof(buf_y))
         throw ap_error("complex::tostring(): buffer overflow");
-    if( sprintf(buf_zero, mask, (double)0)>=(int)sizeof(buf_zero) )
+
+    n = snprintf(buf_zero, sizeof(buf_zero), mask, 0.0);
+    if (n < 0 || n >= (int)sizeof(buf_zero))
         throw ap_error("complex::tostring(): buffer overflow");
 
     // different zero/nonzero patterns
@@ -7152,7 +7164,8 @@ std::string alglib::arraytostring(const ae_int_t *ptr, ae_int_t n)
     result = "[";
     for(i=0; i<n; i++)
     {
-        if( sprintf(buf, i==0 ? "%ld" : ",%ld", long(ptr[i]))>=(int)sizeof(buf) )
+        int n = snprintf(buf, sizeof(buf), i==0 ? "%ld" : ",%ld", long(ptr[i]));
+        if (n < 0 || n >= (int)sizeof(buf))
             throw ap_error("arraytostring(): buffer overflow");
         result += buf;
     }
@@ -7169,16 +7182,19 @@ std::string alglib::arraytostring(const double *ptr, ae_int_t n, int _dps)
     char mask2[66];
     int dps = _dps>=0 ? _dps : -_dps;
     result = "[";
-    if( sprintf(mask1, "%%.%d%s", dps, _dps>=0 ? "f" : "e")>=(int)sizeof(mask1) )
+    int n = snprintf(mask1, sizeof(mask1), "%%.%d%s", dps, _dps>=0 ? "f" : "e");
+    if (n < 0 || n >= (int)sizeof(mask1))
         throw ap_error("arraytostring(): buffer overflow");
-    if( sprintf(mask2, ",%s", mask1)>=(int)sizeof(mask2) )
+    n = snprintf(mask2, sizeof(mask2), ",%s", mask1);
+    if (n < 0 || n >= (int)sizeof(mask2))
         throw ap_error("arraytostring(): buffer overflow");
     for(i=0; i<n; i++)
     {
         buf[0] = 0;
         if( fp_isfinite(ptr[i]) )
         {
-            if( sprintf(buf, i==0 ? mask1 : mask2, double(ptr[i]))>=(int)sizeof(buf) )
+            n = snprintf(buf, sizeof(buf), i==0 ? mask1 : mask2, double(ptr[i]));
+            if (n < 0 || n >= (int)sizeof(buf))
                 throw ap_error("arraytostring(): buffer overflow");
         }
         else if( fp_isnan(ptr[i]) )
