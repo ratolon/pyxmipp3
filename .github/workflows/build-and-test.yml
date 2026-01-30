@@ -58,7 +58,13 @@ jobs:
         env:
           CMAKE_OSX_ARCHITECTURES: arm64
           CMAKE_PREFIX_PATH: /opt/homebrew
-          LDDFLAGS: "-L/opt/homebrew/lib -lzstd -lz -lsz -ljpeg -ltiff -lfftw3 -lhdf5"
+          
+          # Disable SZIP in HDF5 and libtiff - Only zlib and zstd
+          HDF5_ENABLE_SZIP: "OFF"
+          TIFF_ENABLE_SZIP: "OFF"
+
+          # Flags for CMake to find Homebrew libs
+          LDDFLAGS: "-L/opt/homebrew/lib -lzstd -lz -ljpeg -ltiff -lfftw3 -lhdf5"
           CPPFLAGS: "-I/opt/homebrew/include"
         run: pip install . -v
 
