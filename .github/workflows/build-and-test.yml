@@ -67,10 +67,11 @@ jobs:
       - name: Debug macOS libs
         if: matrix.os == 'macos-latest'
         run: |
-          for lib in hdf5 fftw libtiff jpeg; do
+          for lib in fftw libtiff jpeg; do
             echo "=== $lib ==="
             file $(brew --prefix $lib)/lib/*.dylib | head -n 3
           done
+          file $GITHUB_WORKSPACE/hdf5/lib/*.dylib | head -n 3
 
       - name: Install with pip (only macOS)
         if: matrix.os == 'macos-latest'
