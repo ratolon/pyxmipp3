@@ -4861,18 +4861,18 @@ std::string alglib::complex::tostring(int _dps) const
         throw ap_error("complex::tostring(): buffer overflow");
 
     // print |x|, |y| and zero with same mask and compare
-    int n;
+    int of_marker;
 
-    n = snprintf(buf_x, sizeof(buf_x), mask, (double)fabs(x));
+    of_marker = snprintf(buf_x, sizeof(buf_x), mask, (double)fabs(x));
     if (n < 0 || n >= (int)sizeof(buf_x))
         throw ap_error("complex::tostring(): buffer overflow");
 
-    n = snprintf(buf_y, sizeof(buf_y), mask, (double)fabs(y));
-    if (n < 0 || n >= (int)sizeof(buf_y))
+    of_marker = snprintf(buf_y, sizeof(buf_y), mask, (double)fabs(y));
+    if (of_marker < 0 || of_marker >= (int)sizeof(buf_y))
         throw ap_error("complex::tostring(): buffer overflow");
 
-    n = snprintf(buf_zero, sizeof(buf_zero), mask, 0.0);
-    if (n < 0 || n >= (int)sizeof(buf_zero))
+    of_marker = snprintf(buf_zero, sizeof(buf_zero), mask, 0.0);
+    if (of_marker < 0 || of_marker >= (int)sizeof(buf_zero))
         throw ap_error("complex::tostring(): buffer overflow");
 
     // different zero/nonzero patterns
