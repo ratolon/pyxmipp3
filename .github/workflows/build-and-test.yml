@@ -59,7 +59,7 @@ jobs:
           tar xf hdf5-1.14.3.tar.gz
           cd hdf5-1.14.3
 
-          ./configure --prefix=$PREFIX --enable-threadsafe --with-pthread --disable-szlib
+          ./configure --prefix=$PREFIX --disable-szlib
           make -j$(sysctl -n hw.ncpu)
           make install
           cd ..
