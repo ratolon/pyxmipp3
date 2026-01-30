@@ -43,7 +43,7 @@ jobs:
         run: |
           brew update
           brew install pkg-config cmake 
-          brew install hdf5-mpi fftw libtiff jpeg zstd
+          brew install hdf5 fftw libtiff jpeg zstd
         
       - name: Debug macOS libs
         if: matrix.os == 'macos-latest'
@@ -65,11 +65,7 @@ jobs:
       - name: Inspect xmippLib
         if: runner.os == 'macOS'
         run: |
-          otool -L $(python - <<'EOF'
-          import xmippLib, inspect, os
-          print(os.path.abspath(inspect.getfile(xmippLib)))
-          EOF
-          )
+          otool -L "$(python -c "import xmippLib,inspect,os; print(os.path.abspath(inspect.getfile(xmippLib)))")"
 
       - name: Install with pip (non macOS)
         if: matrix.os != 'macos-latest'
