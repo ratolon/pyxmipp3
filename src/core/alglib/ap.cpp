@@ -4864,7 +4864,7 @@ std::string alglib::complex::tostring(int _dps) const
     int of_marker;
 
     of_marker = snprintf(buf_x, sizeof(buf_x), mask, (double)fabs(x));
-    if (n < 0 || n >= (int)sizeof(buf_x))
+    if (of_marker < 0 || of_marker >= (int)sizeof(buf_x))
         throw ap_error("complex::tostring(): buffer overflow");
 
     of_marker = snprintf(buf_y, sizeof(buf_y), mask, (double)fabs(y));
