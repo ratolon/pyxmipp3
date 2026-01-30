@@ -76,11 +76,11 @@ jobs:
         if: matrix.os == 'macos-latest'
         env:
           CMAKE_OSX_ARCHITECTURES: arm64
-          CMAKE_PREFIX_PATH: /opt/homebrew
+          CMAKE_PREFIX_PATH: ${{ github.workspace }}/hdf5
 
           # Flags for CMake to find Homebrew libs
-          LDDFLAGS: "-L/opt/homebrew/lib -lzstd -lz -ljpeg -ltiff -lfftw3 -lhdf5"
-          CPPFLAGS: "-I/opt/homebrew/include"
+          LDFLAGS: "-L/opt/homebrew/lib -lzstd -lz -ljpeg -ltiff -lfftw3 -L${{ github.workspace}}/hdf5/lib -lhdf5"
+          CPPFLAGS: "-I${{ github.workspace }}/hdf5/include -I/opt/homebrew/include"
         run: pip install . -v
 
       - name: Show CMake configuration
