@@ -43,7 +43,7 @@ jobs:
         run: |
           brew update
           brew install pkg-config cmake 
-          brew install hdf5 fftw libtiff jpeg zstd szip
+          brew install hdf5-mpi fftw libtiff jpeg zstd
         
       - name: Debug macOS libs
         if: matrix.os == 'macos-latest'
@@ -58,10 +58,10 @@ jobs:
         env:
           CMAKE_OSX_ARCHITECTURES: arm64
           CMAKE_PREFIX_PATH: /opt/homebrew
-          LDDFLAGS: "-L/opt/homebrew/lib -lzstd -lszip -ljpeg -ltiff -lfftw3 -lhdf5"
+          LDDFLAGS: "-L/opt/homebrew/lib -lzstd -lz -lsz -ljpeg -ltiff -lfftw3 -lhdf5"
           CPPFLAGS: "-I/opt/homebrew/include"
         run: pip install . -v
-        
+
       - name: Inspect xmippLib
         if: runner.os == 'macOS'
         run: |
