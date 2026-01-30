@@ -84,15 +84,9 @@ jobs:
           CPPFLAGS: "-I${{ github.workspace }}/hdf5/include -I/opt/homebrew/include"
         run: pip install . -v
 
-      - name: Show CMake configuration
-        if: matrix.os == 'macos-latest'
-        run: |
-          cmake -LAH . | grep -i szip
-
       - name: Inspect xmippLib
         if: runner.os == 'macOS'
         run: |
-          DYLD_PRINT_LIBRARIES=1 python -c "import xmippLib"
           otool -L "$(python -c "import xmippLib,inspect,os; print(os.path.abspath(inspect.getfile(xmippLib)))")"
 
       - name: Install with pip (non macOS)
