@@ -38,12 +38,17 @@ jobs:
         run: |
           echo "/opt/homebrew/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies (Only macOS)
+      - name: Install brew dependencies (Only macOS)
         if: matrix.os == 'macos-latest'
         run: |
           brew update
           brew install pkg-config cmake 
-          brew install hdf5 fftw libtiff jpeg zstd
+          brew install fftw libtiff jpeg zstd
+      
+      - name: Install ARM64 HDF5 without szip (only macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install hdf5 --build-from-source --ignore-dependencies --force-bottle --without-szlib
         
       - name: Debug macOS libs
         if: matrix.os == 'macos-latest'
@@ -58,19 +63,21 @@ jobs:
         env:
           CMAKE_OSX_ARCHITECTURES: arm64
           CMAKE_PREFIX_PATH: /opt/homebrew
-          
-          # Disable SZIP in HDF5 and libtiff - Only zlib and zstd
-          HDF5_ENABLE_SZIP: "OFF"
-          TIFF_ENABLE_SZIP: "OFF"
 
           # Flags for CMake to find Homebrew libs
           LDDFLAGS: "-L/opt/homebrew/lib -lzstd -lz -ljpeg -ltiff -lfftw3 -lhdf5"
           CPPFLAGS: "-I/opt/homebrew/include"
         run: pip install . -v
 
+      - name: Show CMake configuration
+        if: matrix.os == 'macos-latest'
+        run: |
+          cmake -LAH . | grep -i szip
+
       - name: Inspect xmippLib
         if: runner.os == 'macOS'
         run: |
+          DYLD_PRINT_LIBRARIES=1 python -c "import xmippLib"
           otool -L "$(python -c "import xmippLib,inspect,os; print(os.path.abspath(inspect.getfile(xmippLib)))")"
 
       - name: Install with pip (non macOS)
