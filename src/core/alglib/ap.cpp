@@ -7164,8 +7164,8 @@ std::string alglib::arraytostring(const ae_int_t *ptr, ae_int_t n)
     result = "[";
     for(i=0; i<n; i++)
     {
-        int n = snprintf(buf, sizeof(buf), i==0 ? "%ld" : ",%ld", long(ptr[i]));
-        if (n < 0 || n >= (int)sizeof(buf))
+        int of_marker = snprintf(buf, sizeof(buf), i==0 ? "%ld" : ",%ld", long(ptr[i]));
+        if (of_marker < 0 || of_marker >= (int)sizeof(buf))
             throw ap_error("arraytostring(): buffer overflow");
         result += buf;
     }
@@ -7182,19 +7182,19 @@ std::string alglib::arraytostring(const double *ptr, ae_int_t n, int _dps)
     char mask2[66];
     int dps = _dps>=0 ? _dps : -_dps;
     result = "[";
-    int n = snprintf(mask1, sizeof(mask1), "%%.%d%s", dps, _dps>=0 ? "f" : "e");
-    if (n < 0 || n >= (int)sizeof(mask1))
+    int of_marker = snprintf(mask1, sizeof(mask1), "%%.%d%s", dps, _dps>=0 ? "f" : "e");
+    if (of_marker < 0 || of_marker >= (int)sizeof(mask1))
         throw ap_error("arraytostring(): buffer overflow");
-    n = snprintf(mask2, sizeof(mask2), ",%s", mask1);
-    if (n < 0 || n >= (int)sizeof(mask2))
+    of_marker = snprintf(mask2, sizeof(mask2), ",%s", mask1);
+    if (of_marker < 0 || of_marker >= (int)sizeof(mask2))
         throw ap_error("arraytostring(): buffer overflow");
     for(i=0; i<n; i++)
     {
         buf[0] = 0;
         if( fp_isfinite(ptr[i]) )
         {
-            n = snprintf(buf, sizeof(buf), i==0 ? mask1 : mask2, double(ptr[i]));
-            if (n < 0 || n >= (int)sizeof(buf))
+            of_marker = snprintf(buf, sizeof(buf), i==0 ? mask1 : mask2, double(ptr[i]));
+            if (of_marker < 0 || of_marker >= (int)sizeof(buf))
                 throw ap_error("arraytostring(): buffer overflow");
         }
         else if( fp_isnan(ptr[i]) )
