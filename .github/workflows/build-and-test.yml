@@ -48,7 +48,21 @@ jobs:
       - name: Install ARM64 HDF5 without szip (only macOS)
         if: matrix.os == 'macos-latest'
         run: |
-          brew install hdf5 --build-from-source --ignore-dependencies --force-bottle --without-szlib
+          set -e
+          PREFIX=$GITHUB_WORKSPACE/hdf5
+          mkdir -p $PREFIX
+          export CMAKE_PREFIX_PATH=$PREFIX
+          export LDFLAGS="-L$PREFIX/lib"
+          export CPPFLAGS="-I$PREFIX/include"
+
+          curl -LO https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.14/hdf5-1.14.3/src/hdf5-1.14.3.tar.gz
+          tar xf hdf5-1.14.3.tar.gz
+          cd hdf5-1.14.3
+
+          ./configure --prefix=$PREFIX --enable-threadsafe --with-pthread --disable-szlib
+          make -j$(sysctl -n hw.ncpu)
+          make install
+          cd ..
         
       - name: Debug macOS libs
         if: matrix.os == 'macos-latest'
